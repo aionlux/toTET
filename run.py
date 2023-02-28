@@ -206,7 +206,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ANAL"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ailook"))
 
     @QtCore.pyqtSlot(QtGui.QImage)
     def updateFrame(self, image):
