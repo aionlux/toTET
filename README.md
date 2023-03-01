@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://raw.githubusercontent.com/aionlux/.github/main/resources/img/lg.png">
+</p>
+
 # ailook on Tinker Edge T (TET)
 
 This project is about cars plates recognition. The following content concerns setting it up on a Tinker Edge T board.
