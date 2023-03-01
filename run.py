@@ -1,22 +1,19 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-import cv2
-from PyQt5.QtCore import QSize, QTimer
-from PyQt5.QtWidgets import QTableWidgetItem
-
 import argparse
 import os
+import threading
+from datetime import datetime
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import QSize, QTimer
+from PyQt5.QtWidgets import QTableWidgetItem
 
 from pycoral.adapters.common import input_size
 from pycoral.adapters.detect import get_objects
 from pycoral.utils.dataset import read_label_file
 from pycoral.utils.edgetpu import make_interpreter
 from pycoral.utils.edgetpu import run_inference
-
-import threading
-from datetime import datetime
-
 from openalpr import Alpr
-
+import cv2 as cv
 import pandas as pd
 import numpy as np
 
@@ -44,29 +41,32 @@ class FrameGrabber(QtCore.QThread):
         self.labels = read_label_file(self.args.labels)
         self.inference_size = input_size(self.interpreter)
         threading.Timer(10.0,self.take_snapshot).start()
+
     signal = QtCore.pyqtSignal(QtGui.QImage)
 
     def run(self):
-        global cv2_im
+        global cv_im
         global objs
-        cap = cv2.VideoCapture(self.args.camera_idx)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        WIDTH = 640
+        HEIGHT = 480
+        cap = cv.VideoCapture(self.args.camera_idx)
+        cap.set(cv.CAP_PROP_FRAME_WIDTH, WIDTH)
+        cap.set(cv.CAP_PROP_FRAME_HEIGHT, HEIGHT)
         
         while cap.isOpened():
             success, frame = cap.read()
             if success:
-                cv2_im = frame
-                cv2_im_rgb = cv2.cvtColor(cv2_im, cv2.COLOR_BGR2RGB)
-                cv2_im_rgb = cv2.resize(cv2_im_rgb, self.inference_size)
-                run_inference(self.interpreter, cv2_im_rgb.tobytes())
+                cv_im = frame
+                cv_im_rgb = cv.cvtColor(cv_im, cv.COLOR_BGR2RGB)
+                cv_im_rgb = cv.resize(cv_im_rgb, self.inference_size)
+                run_inference(self.interpreter, cv_im_rgb.tobytes())
                 objs = get_objects(self.interpreter, self.args.threshold)[:self.args.top_k]
-                cv2_im = self.append_objs_to_img(cv2_im, self.inference_size, objs, self.labels, False)
+                cv_im = self.append_objs_to_img(cv_im, self.inference_size, objs, self.labels, False)
                 image = QtGui.QImage(frame, frame.shape[1], frame.shape[0], QtGui.QImage.Format_RGB888).rgbSwapped()
                 self.signal.emit(image)
 
-    def append_objs_to_img(self, cv2_im, inference_size, objs, labels, take_photo):
-        height, width, channels = cv2_im.shape
+    def append_objs_to_img(self, cv_im, inference_size, objs, labels, take_photo):
+        height, width, channels = cv_im.shape
         scale_x, scale_y = width / inference_size[0], height / inference_size[1]
         for self.i, obj in enumerate(objs):
             bbox = obj.bbox.scale(scale_x, scale_y)
@@ -76,23 +76,23 @@ class FrameGrabber(QtCore.QThread):
             #percent = int(100 * obj.score)
             #label = '{}% {}'.format(percent, labels.get(obj.id, obj.id))
 
-            cv2_im = cv2.rectangle(cv2_im, (x0, y0), (x1, y1), (0, 255, 0), 2)
-            #cv2_im = cv2.putText(cv2_im, label, (x0, y0+30),
-            #                 cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 0), 2)
+            cv_im = cv.rectangle(cv_im, (x0, y0), (x1, y1), (0, 255, 0), 2)
+            #cv_im = cv.putText(cv_im, label, (x0, y0+30),
+            #                 cv.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 0), 2)
             if take_photo:
                 self.now = datetime.now().strftime('%Y-%m-%d-%H%M%S')
                 obj_filename = f'''{self.now}-{self.i}'''
                 print(obj_filename)
-                self.roi = cv2_im[y0:y1,x0:x1]
+                self.roi = cv_im[y0:y1,x0:x1]
                 obj_path = f'''./detected/{obj_filename}.jpg'''
-                cv2.imwrite(f'''{obj_path}''',self.roi)
+                cv.imwrite(f'''{obj_path}''',self.roi)
                 self.run_alpr(obj_path)
                 #self.file_list.append(f'''./detected/{obj_filename}.jpg''')
-        return cv2_im
+        return cv_im
     
     def take_snapshot(self):
         print('take snapshot init')
-        self.append_objs_to_img(cv2_im, self.inference_size, objs, self.labels, True)
+        self.append_objs_to_img(cv_im, self.inference_size, objs, self.labels, True)
         thread = threading.Timer(5.0,self.take_snapshot)
         thread.daemon = True
         thread.start()
@@ -112,10 +112,6 @@ class FrameGrabber(QtCore.QThread):
             alpr.set_detect_region(False)
             jpeg_bytes = open(plate_image, "rb").read()
             results = alpr.recognize_array(jpeg_bytes)
-
-            # Uncomment to see the full results structure
-            # import pprint
-            # pprint.pprint(results)
 
             print("Image size: %dx%d" %(results['img_width'], results['img_height']))
             print("Processing Time: %f" % results['processing_time_ms'])
@@ -141,7 +137,7 @@ class FrameGrabber(QtCore.QThread):
                 alpr.unload()
 
     def check_rego(self, plate_text):
-        #write API or post request to check Government website
+
         print(f'''{plate_text} being checked''')
         print(f'''{plate_text} being written to CSV''')
         f=open('plates.csv','a')
@@ -191,7 +187,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         # Camera
         self.imgLabel = QtWidgets.QLabel(self.centralwidget)
-        self.imgLabel.setGeometry(QtCore.QRect(0, 0, 640, 480)) #600,480
+        self.imgLabel.setGeometry(QtCore.QRect(0, 0, 640, 480)) # 600,480
         self.imgLabel.setFrameShape(QtWidgets.QFrame.Box)
         self.imgLabel.setText("")
         self.imgLabel.setObjectName("imgLabel")
@@ -206,7 +202,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "ailook"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ailook_on_TET"))
 
     @QtCore.pyqtSlot(QtGui.QImage)
     def updateFrame(self, image):
