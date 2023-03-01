@@ -68,3 +68,65 @@ It's necessary to download git:
 ```
 sudo apt-get install git
 ```
+
+## Install OpenCV
+
+These steps are based on how to install OpenCV in Ubuntu. The easy way to download is by typing `sudo apt-get install python3-opencv`, but this doesn't work very well with tesseract (that is what we will need to install also). So the correct way is the following.
+
+```bash
+sudo apt-get remove --auto-remove python3-opencv
+sudo apt-get install cmake
+sudo apt-get install gcc g++
+sudo apt-get install python3-dev python3-numpy
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
+sudo apt-get install libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
+sudo apt-get install libgtk-3-dev
+sudo apt-get install libpng-dev libjpeg-dev libopenexr-dev libtiff-dev libwebp-dev
+```
+
+Then we will continue to clone the OpenCV repository:
+
+
+```bash
+git clone https://github.com/opencv/opencv.git
+cd opencv
+mkdir build
+cd build
+sudo make ../
+sudo make
+```
+
+It's possible we have an error during `sudo make` running, to fix it we have to follow the steps on: https://linuxize.com/post/how-to-add-swap-space-on-debian-10/
+
+if The above step is done we continue with the following:
+
+```bash
+sudo make install
+```
+
+To import OpenCV in our script we have to create a file named `site-packages.pth`:
+
+```bash
+cd /usr/local/lib/python3.7/dist-packages
+sudo vim site-packages.pth
+```
+
+and copy:
+
+```text
+../site-packages
+```
+
+Now we can use OpenCV like this:
+
+```python
+import cv2 as cv
+print(cv.__version__)
+```
+
+The complete installation is here: https://docs.opencv.org/3.4/d2/de6/tutorial_py_setup_in_ubuntu.html
+
+
+
+
+
