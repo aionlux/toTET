@@ -1,7 +1,7 @@
-<p align="center">
+<div align="center">
     <img src="https://raw.githubusercontent.com/aionlux/.github/main/resources/img/lg3.png">
-    <span> Ailook on Tinker Edge T (TET) </span>
-</p>
+    <p> <b>Ailook on Tinker Edge T (TET)</b> </p>
+</div>
 
 ---------------------------------------------------------------------
 
