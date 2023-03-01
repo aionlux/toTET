@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/aionlux/.github/main/resources/img/lg.png">
+    <img src="https://raw.githubusercontent.com/aionlux/.github/main/resources/img/lg3.png">
 </p>
 
 # ailook on Tinker Edge T (TET)
