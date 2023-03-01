@@ -36,4 +36,35 @@ This allows us to SSH into TET:
 mdt devices
 mdt shell
 ```
-## 
+
+### Internet, timezones, update, and upgrade
+
+When we want to connect our TET to the internet we just have to type `nmtui` this display a UI that allows us to interact with many available networks.
+
+If we want to change the time zone, we can do it like this:
+
+```bash
+timedatectl list-timezones
+```
+
+The above will display timezones, we have to figure out our country `<zone>` and then type:
+
+```bash
+sudo timedatectl set-timezone <zone>
+sudo timedatectl set-ntp yes
+sudo reboot
+```
+
+Also, we have to update packages:
+
+```bash
+
+sudo apt-get update
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt upgrade
+```
+
+It's necessary to download git:
+```
+sudo apt-get install git
+```
