@@ -138,7 +138,7 @@ sudo apt-get install automake libtool
 Now we can clone repositpry from https://github.com/tesseract-ocr/tesseract
 
 ```bash
-git clone https://github.com/tesseract-ocr/tesseract
+git clone https://github.com/tesseract-ocr/tesseract.git
 ```
 
 When the above is done, we continue doing the following:
@@ -166,7 +166,48 @@ To test if this works go to https://tesseract-ocr.github.io/tessdoc/Command-Line
 
 The complete descrption about this installation is here: https://github.com/tesseract-ocr/tesseract/blob/main/INSTALL.GIT.md
 
+## Install Openalpr
 
+We have to install prerequisites
 
+```bash
+sudo apt-get install libopencv-dev libtesseract-dev git cmake build-essential libleptonica-dev
+sudo apt-get install liblog4cplus-dev libcurl3-dev
+sudo apt-get install beanstalkd
+```
+Then we have to clone the repository:
+
+```bash
+git clone https://github.com/openalpr/openalpr.git
+```
+
+To setup follow these steps:
+
+```bash
+cd openalpr/src
+mkdir build
+cd build
+sudo cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc ..
+sudo make
+sudo make install
+```
+
+If you want to test:
+
+```bash
+sudo wget http://plates.openalpr.com/h786poj.jpg -O lp.jpg
+alpr lp.jpg
+```
+
+or
+
+```bash
+cd openalpr/src/bindings/python/
+sudo python3 setup.py install
+sudo wget http://plates.openalpr.com/h786poj.jpg -O lp.jpg
+sudo python3 test.py -c au lp.jpg   # au is a country (in this case australia)
+```
+
+The installation is the easiest way to install Openalpr, there are other ways, and we can found them here: https://github.com/openalpr/openalpr/wiki/Compilation-instructions-(Ubuntu-Linux)
 
 
