@@ -7,6 +7,12 @@
 
 This project is about cars plates recognition. The following content concerns setting it up on a Tinker Edge T board.
 
+- Prerequisites
+    - [Install Tinker Edge T Software](https://github.com/aionlux/toTET#install-tinker-edge-t-software)
+    - [Install OpenCV](https://github.com/aionlux/toTET#install-opencv)
+    - [Install Tesseract](https://github.com/aionlux/toTET#install-tesseract)
+    - [Install Openalpr](https://github.com/aionlux/toTET#install-openalpr)
+
 ## Install Tinker Edge T Software
 
 To Incorporate the Tinker edge T environment (software) it’s important to go to the following forum URL to download it:
