@@ -12,6 +12,7 @@ This project is about cars plates recognition. The following content concerns se
     - [Install OpenCV](https://github.com/aionlux/toTET#install-opencv)
     - [Install Tesseract](https://github.com/aionlux/toTET#install-tesseract)
     - [Install Openalpr](https://github.com/aionlux/toTET#install-openalpr)
+- [Run Script](https://github.com/aionlux/toTET#run-script "Run Script")
 
 ## Install Tinker Edge T Software
 
