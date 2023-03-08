@@ -126,6 +126,46 @@ print(cv.__version__)
 
 The complete installation is here: https://docs.opencv.org/3.4/d2/de6/tutorial_py_setup_in_ubuntu.html
 
+## Install Tesseract
+
+Before to clone Tesseract repository it's important install these requierements:
+
+```bash
+sudo apt-get install libleptonica-dev
+sudo apt-get install automake libtool
+```
+
+Now we can clone repositpry from https://github.com/tesseract-ocr/tesseract
+
+```bash
+git clone https://github.com/tesseract-ocr/tesseract
+```
+
+When the above is done, we continue doing the following:
+
+```bash
+cd tesseract
+sudo ./autogen.sh
+sudo ./configure
+sudo make
+sudo make install
+sudo ldconfig
+sudo make training
+sudo make training-install
+```
+
+We hahe to download some traineddata:
+
+```bash
+cd /usr/local/share/tessdata
+sudo wget https://github.com/tesseract-ocr/tessdata/blob/main/eng.traineddata
+sudo wget https://github.com/tesseract-ocr/tessdata/blob/main/osd.traineddata
+```
+
+To test if this works go to https://tesseract-ocr.github.io/tessdoc/Command-Line-Usage.html#simplest-invocation-to-ocr-an-image
+
+The complete descrption about this installation is here: https://github.com/tesseract-ocr/tesseract/blob/main/INSTALL.GIT.md
+
 
 
 
