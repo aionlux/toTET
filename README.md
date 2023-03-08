@@ -217,3 +217,46 @@ sudo python3 test.py -c au lp.jpg   # au is a country (in this case australia)
 The installation is the easiest way to install Openalpr, there are other ways, and we can found them here: https://github.com/openalpr/openalpr/wiki/Compilation-instructions-(Ubuntu-Linux)
 
 
+## Run Script
+
+To run the script before we have to ensure all prerequisites are installed. So we have to clone this repository:
+
+```bash
+git clone https://github.com/aionlux/toTET.git
+```
+
+The script will need some extra dependencies such as `pyqt5`, `pycoral`, `pandas`, `numpy` libraries. First it's necesary update and upgrade.
+
+```bash
+sudo apt-get update
+sudo apt upgrade
+sudo apt-get install python3-pyqt5
+sudo apt-get install python3-pycoral
+sudo apt-get install python3-pandas
+sudo apt-get install python3-numpy
+```
+
+Then we will go to `./toTET`, create a directory called `detected`, change mode of `plates.tflite`, and install `xorg`. If for some cases we need to open an image we will use `feh` (it's optional)
+
+```bash
+cd toTET
+sudo mkdir detected
+sudo chmod 775 plates.tflite
+sudo apt-get install xorg
+sudo apt-get install feh
+```
+
+It's almost done. Before to run la script `run.py` we have to execute.
+
+```bash
+xhost local:root
+```
+
+Now
+
+```
+sudo python3 run.py
+```
+
+
+
