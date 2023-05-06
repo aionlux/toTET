@@ -76,6 +76,18 @@ It's necessary to download git:
 sudo apt-get install git
 ```
 
+### Install Chromium and Jupyter-notebook
+
+```bash
+sudo apt-get install chromium
+sudo apt-get install jupyter-notebook
+```
+To run:
+```bash
+chromium
+sudo jupyter-notebook --allow-root 
+```
+
 ## Install OpenCV
 
 These steps are based on how to install OpenCV in Ubuntu. The easy way to download is by typing `sudo apt-get install python3-opencv`, but this doesn't work very well with tesseract (that is what we will need to install also). So the correct way is the following.
