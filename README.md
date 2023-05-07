@@ -173,7 +173,7 @@ sudo make training
 sudo make training-install
 ```
 
-We hahe to download some traineddata:
+We have to download some traineddata:
 
 ```bash
 cd /usr/local/share/tessdata
