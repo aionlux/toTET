@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/aionlux/.github/main/resources/img/lg3.png">
+    <img style="width:300px; height:auto;" src="https://raw.githubusercontent.com/aionlux/.github/main/resources/img/toTET/toTET_image.png">
     <p> <b>Ailook on Tinker Edge T (TET)</b> </p>
 </div>
 
@@ -111,7 +111,7 @@ git clone https://github.com/opencv/opencv.git
 cd opencv
 mkdir build
 cd build
-sudo make ../
+sudo cmake ../
 sudo make
 ```
 
@@ -183,7 +183,7 @@ sudo wget https://github.com/tesseract-ocr/tessdata/blob/main/osd.traineddata
 
 To test if this works go to https://tesseract-ocr.github.io/tessdoc/Command-Line-Usage.html#simplest-invocation-to-ocr-an-image
 
-The complete descrption about this installation is here: https://github.com/tesseract-ocr/tesseract/blob/main/INSTALL.GIT.md
+The complete description about this installation is here: https://github.com/tesseract-ocr/tesseract/blob/main/INSTALL.GIT.md
 
 ## Install Openalpr
 

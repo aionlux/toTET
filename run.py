@@ -30,7 +30,7 @@ class FrameGrabber(QtCore.QThread):
                         default=os.path.join(self.default_model_dir, self.default_labels))
         self.parser.add_argument('--top_k', type=int, default=3,
                         help='number of categories with highest score to display')
-        self.parser.add_argument('--camera_idx', type=int, help='Index of which video source to use. ', default = 2)
+        self.parser.add_argument('--camera_idx', type=int, help='Index of which video source to use. ', default = 1)
         self.parser.add_argument('--threshold', type=float, default=0.1,
                         help='classifier score threshold')
         self.args = self.parser.parse_args()
